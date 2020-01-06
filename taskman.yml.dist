@@ -6,7 +6,7 @@ drupal:
     profile: standard
   database:
     scheme: "mysql"
-    host: "127.0.0.1"
+    host: "mysql"
     port: "3306"
     name: "drupal"
     user: "root"
@@ -25,7 +25,7 @@ drupal:
       - ./vendor/bin/drush config-set system.theme admin seven -y
       - ./vendor/bin/drush config-set node.settings use_admin_theme 1 -y
       - ./vendor/bin/drush pmu help big_pipe -y
-      - ./vendor/bin/drush en watchdog_registry -y
+      - ./vendor/bin/drush en watchdog_registry admin_toolbar admin_toolbar_tools -y
       - ./vendor/bin/drush cr
       - ./vendor/bin/drush uli
   drush:

@@ -16,6 +16,7 @@
     "require-dev": {
         "composer/installers": "^1.7",
         "drupal-composer/drupal-scaffold": "^2.6",
+        "drupal/admin_toolbar": "^2.0",
         "drupal/console": "^1.9",
         "drupal/core": "^8.8",
         "drupol/drupal-conventions": "^1.7",
