@@ -2,15 +2,19 @@
 
 namespace Drupal\watchdog_registry\Logger;
 
+use Drupal;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LogMessageParserInterface;
 use Drupal\Core\Logger\RfcLoggerTrait;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Provides a logger.
+ */
 class WatchdogRegistryLogger implements LoggerInterface {
-  use RfcLoggerTrait;
   use DependencySerializationTrait;
+  use RfcLoggerTrait;
 
   /**
    * The entity type manager.
@@ -42,12 +46,11 @@ class WatchdogRegistryLogger implements LoggerInterface {
   /**
    * {@inheritdoc}
    */
-  public function log($level, $message, array $context = array()) {
-
+  public function log($level, $message, array $context = []) {
     if (isset($context['channel']) && $context['channel'] === 'php') {
       $message_placeholders = $this->parser->parseMessagePlaceholders($message, $context);
-  
-      $wr = \Drupal::entityTypeManager()
+
+      $wr = Drupal::entityTypeManager()
         ->getStorage('watchdog_registry')
         ->loadByProperties([
           'type' => $message_placeholders['%type'],
@@ -56,7 +59,8 @@ class WatchdogRegistryLogger implements LoggerInterface {
           'file' => $message_placeholders['%file'],
           'line' => $message_placeholders['%line'],
         ]);
-      if (empty($wr) === true) {
+
+      if (empty($wr) === TRUE) {
         // TODO: Some kind of action to notify developer of new watchdog entry.
       }
     }

@@ -7,38 +7,56 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
 /**
  * Defines the Watchdog registry entity.
  *
+ * // phpcs:disable Drupal.Files.LineLength.TooLong
+ *
  * @ConfigEntityType(
- *   id = "watchdog_registry",
- *   label = @Translation("Watchdog registry"),
- *   handlers = {
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\watchdog_registry\WatchdogRegistryListBuilder",
- *     "form" = {
- *       "add" = "Drupal\watchdog_registry\Form\WatchdogRegistryForm",
- *       "edit" = "Drupal\watchdog_registry\Form\WatchdogRegistryForm",
- *       "delete" = "Drupal\watchdog_registry\Form\WatchdogRegistryDeleteForm"
+ *     id="watchdog_registry",
+ *     label=@Translation("Watchdog registry"),
+ *     handlers={
+ *         "view_builder": "Drupal\Core\Entity\EntityViewBuilder",
+ *         "list_builder": "Drupal\watchdog_registry\WatchdogRegistryListBuilder",
+ *         "form": {
+ *             "add": "Drupal\watchdog_registry\Form\WatchdogRegistryForm",
+ *             "edit": "Drupal\watchdog_registry\Form\WatchdogRegistryForm",
+ *             "delete": "Drupal\watchdog_registry\Form\WatchdogRegistryDeleteForm"
+ *         },
+ *         "route_provider": {
+ *             "html": "Drupal\watchdog_registry\WatchdogRegistryHtmlRouteProvider",
+ *         },
  *     },
- *     "route_provider" = {
- *       "html" = "Drupal\watchdog_registry\WatchdogRegistryHtmlRouteProvider",
+ *     config_prefix="watchdog_registry",
+ *     admin_permission="administer site configuration",
+ *     entity_keys={
+ *         "id": "id",
+ *         "label": "label",
+ *         "uuid": "uuid"
  *     },
- *   },
- *   config_prefix = "watchdog_registry",
- *   admin_permission = "administer site configuration",
- *   entity_keys = {
- *     "id" = "id",
- *     "label" = "label",
- *     "uuid" = "uuid"
- *   },
- *   links = {
- *     "canonical" = "/admin/reports/dblog/watchdog_registry/{watchdog_registry}",
- *     "add-form" = "/admin/reports/dblog/watchdog_registry/add",
- *     "edit-form" = "/admin/reports/dblog/watchdog_registry/{watchdog_registry}/edit",
- *     "delete-form" = "/admin/reports/dblog/watchdog_registry/{watchdog_registry}/delete",
- *     "collection" = "/admin/reports/dblog/watchdog_registry"
- *   }
+ *     links={
+ *         "canonical": "/admin/reports/dblog/watchdog_registry/{watchdog_registry}",
+ *         "add-form": "/admin/reports/dblog/watchdog_registry/add",
+ *         "edit-form": "/admin/reports/dblog/watchdog_registry/{watchdog_registry}/edit",
+ *         "delete-form": "/admin/reports/dblog/watchdog_registry/{watchdog_registry}/delete",
+ *         "collection": "/admin/reports/dblog/watchdog_registry"
+ *     }
  * )
+ *
+ * phpcs:enable
  */
 class WatchdogRegistry extends ConfigEntityBase implements WatchdogRegistryInterface {
+
+  /**
+   * The Watchdog registry file.
+   *
+   * @var string
+   */
+  protected $file;
+
+  /**
+   * The Watchdog registry function.
+   *
+   * @var string
+   */
+  protected $function;
 
   /**
    * The Watchdog registry ID.
@@ -55,11 +73,11 @@ class WatchdogRegistry extends ConfigEntityBase implements WatchdogRegistryInter
   protected $label;
 
   /**
-   * The Watchdog registry type.
+   * The Watchdog registry line.
    *
-   * @var string
+   * @var int
    */
-  protected $type;
+  protected $line;
 
   /**
    * The Watchdog registry message.
@@ -69,25 +87,25 @@ class WatchdogRegistry extends ConfigEntityBase implements WatchdogRegistryInter
   protected $message;
 
   /**
-   * The Watchdog registry function.
+   * The Watchdog registry type.
    *
    * @var string
    */
-  protected $function;
+  protected $type;
 
   /**
-   * The Watchdog registry file.
-   *
-   * @var string
+   * {@inheritdoc}
    */
-  protected $file;
+  public function getFile() {
+    return $this->file;
+  }
 
   /**
-   * The Watchdog registry line.
-   *
-   * @var int
+   * {@inheritdoc}
    */
-  protected $line;
+  public function getFunction() {
+    return $this->function;
+  }
 
   /**
    * {@inheritdoc}
@@ -99,10 +117,10 @@ class WatchdogRegistry extends ConfigEntityBase implements WatchdogRegistryInter
   /**
    * {@inheritdoc}
    */
-  public function getType() {
-    return $this->type;
+  public function getLine() {
+    return $this->line;
   }
- 
+
   /**
    * {@inheritdoc}
    */
@@ -113,22 +131,8 @@ class WatchdogRegistry extends ConfigEntityBase implements WatchdogRegistryInter
   /**
    * {@inheritdoc}
    */
-  public function getFunction() {
-    return $this->function;
-  }
- 
-  /**
-   * {@inheritdoc}
-   */
-  public function getFile() {
-    return $this->file;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getLine() {
-    return $this->line;
+  public function getType() {
+    return $this->type;
   }
 
 }

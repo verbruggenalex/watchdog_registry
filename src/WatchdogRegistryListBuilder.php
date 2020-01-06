@@ -16,6 +16,7 @@ class WatchdogRegistryListBuilder extends ConfigEntityListBuilder {
   public function buildHeader() {
     $header['label'] = $this->t('Watchdog registry');
     $header['id'] = $this->t('Machine name');
+
     return $header + parent::buildHeader();
   }
 

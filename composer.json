@@ -1,5 +1,48 @@
 {
-    "name": "watchdog_registry",
+    "name": "drupal/watchdog_registry",
     "type": "drupal-module",
-    "description": "Register PHP errors, notices and warnings"
+    "description": "Register PHP errors, notices and warnings",
+    "homepage": "https://drupal.org/project/watchdog_registry",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Verbruggen Alex",
+            "email": "verbruggenalex@gmail.com"
+        }
+    ],
+    "require": {
+        "PHP": ">=7.1"
+    },
+    "require-dev": {
+        "composer/installers": "^1.7",
+        "drupal-composer/drupal-scaffold": "^2.6",
+        "drupal/console": "^1.9",
+        "drupal/core": "^8.8",
+        "drupol/drupal-conventions": "^1.7",
+        "drush/drush": "^10.1"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "grumphp": {
+            "config-default-path": "vendor/drupol/drupal-conventions/config/drupal8/grumphp.yml"
+        },
+        "installer-paths": {
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ]
+        }
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

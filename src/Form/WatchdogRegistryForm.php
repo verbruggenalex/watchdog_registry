@@ -2,11 +2,11 @@
 
 namespace Drupal\watchdog_registry\Form;
 
-use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Finder\Finder;
+use function count;
 
 /**
  * Class WatchdogRegistryForm.
@@ -35,6 +35,7 @@ class WatchdogRegistryForm extends EntityForm {
     $instance = parent::create($container);
     $instance->account = $container->get('current_user');
     $instance->database = $container->get('database');
+
     return $instance;
   }
 
@@ -52,7 +53,7 @@ class WatchdogRegistryForm extends EntityForm {
       '#title' => $this->t('Label'),
       '#maxlength' => 255,
       '#default_value' => $watchdog_registry->getLabel(),
-      '#description' => $this->t("Label for the Watchdog registry."),
+      '#description' => $this->t('Label for the Watchdog registry.'),
       '#required' => TRUE,
       '#disabled' => TRUE,
     ];
@@ -65,7 +66,7 @@ class WatchdogRegistryForm extends EntityForm {
         'standalone' => TRUE,
         'source' => NULL,
       ],
-      '#disabled' => false,
+      '#disabled' => FALSE,
     ];
 
     $form['type'] = [
@@ -73,7 +74,7 @@ class WatchdogRegistryForm extends EntityForm {
       '#title' => $this->t('Type'),
       '#maxlength' => 255,
       '#default_value' => $watchdog_registry->getType(),
-      '#description' => $this->t("Type of the message."),
+      '#description' => $this->t('Type of the message.'),
       '#required' => TRUE,
       '#disabled' => TRUE,
     ];
@@ -83,7 +84,7 @@ class WatchdogRegistryForm extends EntityForm {
       '#title' => $this->t('Message'),
       '#maxlength' => 255,
       '#default_value' => $watchdog_registry->getMessage(),
-      '#description' => $this->t("The logged message."),
+      '#description' => $this->t('The logged message.'),
       '#required' => TRUE,
       '#disabled' => TRUE,
     ];
@@ -93,7 +94,7 @@ class WatchdogRegistryForm extends EntityForm {
       '#title' => $this->t('Function'),
       '#maxlength' => 255,
       '#default_value' => $watchdog_registry->getFunction(),
-      '#description' => $this->t("Function in which the message was logged."),
+      '#description' => $this->t('Function in which the message was logged.'),
       '#required' => TRUE,
       '#disabled' => TRUE,
     ];
@@ -103,7 +104,7 @@ class WatchdogRegistryForm extends EntityForm {
       '#title' => $this->t('File'),
       '#maxlength' => 255,
       '#default_value' => $watchdog_registry->getFile(),
-      '#description' => $this->t("File in which the message was logged."),
+      '#description' => $this->t('File in which the message was logged.'),
       '#required' => TRUE,
       '#disabled' => TRUE,
     ];
@@ -113,31 +114,37 @@ class WatchdogRegistryForm extends EntityForm {
       '#title' => $this->t('Line'),
       '#maxlength' => 255,
       '#default_value' => $watchdog_registry->getLine(),
-      '#description' => $this->t("Line in file in which the message was logged."),
+      '#description' => $this->t('Line in file in which the message was logged.'),
       '#required' => TRUE,
       '#disabled' => TRUE,
     ];
 
     $wid = $this->getRequest()->query->get('wid');
     $isNew = $watchdog_registry->isNew();
+
     if ($isNew) {
-      $result = $this->database->query("SELECT variables FROM {watchdog} WHERE wid=:wid", array(':wid' => $wid))->fetchAll();
+      $result = $this->database->query('SELECT variables FROM {watchdog} WHERE wid=:wid', [':wid' => $wid])->fetchAll();
+
       if (count($result) > 0) {
         $variables = unserialize($result[0]->variables);
+
         foreach ($variables as $variableName => $variableValue) {
-          $name = substr($variableName, 1);
+          $name = mb_substr($variableName, 1);
+
           if ($name !== 'backtrace_string') {
             $value = $variableValue;
+
             if ($name === 'message') {
               if (preg_match_all('~/\S+\.php~', $variableValue, $matches)) {
-                if (isset($matches[0]) === true) {
-                  foreach($matches[0] as $match) {
+                if (isset($matches[0]) === TRUE) {
+                  foreach ($matches[0] as $match) {
                     $path = $this->getRelativeSymlinkedPath($match);
                     $value = str_replace($match, $path, $value);
                   }
                 }
               }
             }
+
             if ($name === 'file') {
               $value = $this->getRelativeSymlinkedPath($variableValue);
             }
@@ -177,6 +184,7 @@ class WatchdogRegistryForm extends EntityForm {
         $this->messenger()->addMessage($this->t('Created the %label Watchdog registry.', [
           '%label' => $watchdog_registry->label(),
         ]));
+
         break;
 
       default:
@@ -187,52 +195,62 @@ class WatchdogRegistryForm extends EntityForm {
     $form_state->setRedirectUrl($watchdog_registry->toUrl('collection'));
   }
 
+  /**
+   * Private helper function to retrieve the relative path.
+   */
+  private function getRelativePath($from, $to) {
+    $from = explode('/', $from);
+    $to = explode('/', $to);
+    $relPath = $to;
 
+    foreach ($from as $depth => $dir) {
+      // Find first non-matching dir.
+      if ($dir === $to[$depth]) {
+        // Ignore this directory.
+        array_shift($relPath);
+      }
+      else {
+        // Get number of remaining dirs to $from.
+        $remaining = count($from) - $depth;
+
+        if ($remaining > 1) {
+          // Add traversals up to first matching dir.
+          $padLength = (count($relPath) + $remaining - 1) * -1;
+          $relPath = array_pad($relPath, $padLength, '..');
+
+          break;
+        }
+        $relPath[0] = './' . $relPath[0];
+      }
+    }
+
+    return implode('/', $relPath);
+  }
+
+  /**
+   * Private helper function to retrieve the relative symlinked path.
+   */
   private function getRelativeSymlinkedPath($variableValue) {
     $value = str_replace(DRUPAL_ROOT . '/', '', $variableValue);
     // Make sure we have the relative path within the drupal root.
     if ($value === $variableValue) {
       $finder = new Finder();
       $finder->files()->in(DRUPAL_ROOT)->followLinks()->name(basename($variableValue));
+
       foreach ($finder as $file) {
-          $relativePath = $file->getRelativePathname();
-          if (sha1_file($variableValue) == sha1_file($relativePath)) {
-            $value = $relativePath;
-          }
+        $relativePath = $file->getRelativePathname();
+
+        if (sha1_file($variableValue) === sha1_file($relativePath)) {
+          $value = $relativePath;
+        }
       }
     }
     // Make sure we have the relative path outside of the drupal root.
     if ($value === $variableValue) {
       $value = $this->getRelativePath(DRUPAL_ROOT . '/index.php', $variableValue);
     }
-    return $value;
-  }
 
-  private function getRelativePath($from, $to)
-  {
-      $from     = explode('/', $from);
-      $to       = explode('/', $to);
-      $relPath  = $to;
-  
-      foreach($from as $depth => $dir) {
-          // find first non-matching dir
-          if($dir === $to[$depth]) {
-              // ignore this directory
-              array_shift($relPath);
-          } else {
-              // get number of remaining dirs to $from
-              $remaining = count($from) - $depth;
-              if($remaining > 1) {
-                  // add traversals up to first matching dir
-                  $padLength = (count($relPath) + $remaining - 1) * -1;
-                  $relPath = array_pad($relPath, $padLength, '..');
-                  break;
-              } else {
-                  $relPath[0] = './' . $relPath[0];
-              }
-          }
-      }
-      return implode('/', $relPath);
+    return $value;
   }
 
 }
