@@ -5,7 +5,6 @@
  * Contains watchdog_registry.module.
  */
 
-use Drupal;
 use Drupal\Core\Link;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;

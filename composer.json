@@ -19,7 +19,8 @@
         "drupal/console": "^1.9",
         "drupal/core": "^8.8",
         "drupol/drupal-conventions": "^1.7",
-        "drush/drush": "^10.1"
+        "drush/drush": "^10.1",
+        "phptaskman/drupal": "^1.0"
     },
     "config": {
         "sort-packages": true
