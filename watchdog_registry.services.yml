@@ -1,0 +1,10 @@
+services:
+  config_example.overrider:
+    class: Drupal\watchdog_registry\Config\ConfigOverrides
+    tags:
+      - {name: config.factory.override, priority: 5}
+  logger.watchdog_registry_logger:
+    class: Drupal\watchdog_registry\Logger\WatchdogRegistryLogger
+    arguments: ['@entity_type.manager', '@logger.log_message_parser']
+    tags:
+      - { name: logger }

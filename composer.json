@@ -1,0 +1,5 @@
+{
+    "name": "watchdog_registry",
+    "type": "drupal-module",
+    "description": "Register PHP errors, notices and warnings"
+}

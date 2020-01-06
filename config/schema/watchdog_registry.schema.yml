@@ -1,0 +1,27 @@
+watchdog_registry.watchdog_registry.*:
+  type: config_entity
+  label: 'Watchdog registry config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string
+    type:
+      type: string
+      label: 'Type'
+    message:
+      type: string
+      label: 'Message'
+    function:
+      type: string
+      label: 'Function'
+    file:
+      type: string
+      label: 'File'
+    line:
+      type: string
+      label: 'Line'

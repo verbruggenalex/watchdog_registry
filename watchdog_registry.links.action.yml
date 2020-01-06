@@ -1,0 +1,5 @@
+entity.watchdog_registry.add_form:
+  route_name: entity.watchdog_registry.add_form
+  title: 'Add Watchdog registry'
+  appears_on:
+    - entity.watchdog_registry.collection
