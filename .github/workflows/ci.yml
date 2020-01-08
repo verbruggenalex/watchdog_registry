@@ -20,7 +20,7 @@ jobs:
         docker-compose ps
     - name: Composer
       run: |
-        docker-compose exec -T web composer install --no-suggest --ansi"
+        docker-compose exec -T web composer install --no-suggest --ansi
     - name: Grumphp
       run: |
-        docker-compose exec -T web  ./vendor/bin/grumphp run"
+        docker-compose exec -T web  ./vendor/bin/grumphp run
