@@ -17,10 +17,13 @@
         "composer/installers": "^1.7",
         "drupal-composer/drupal-scaffold": "^2.6",
         "drupal/admin_toolbar": "^2.0",
+        "drupal/coder": "^8.3",
         "drupal/console": "^1.9",
         "drupal/core": "^8.8",
-        "drupol/drupal-conventions": "^1.7",
         "drush/drush": "^10.1",
+        "ergebnis/composer-normalize": "^2.2",
+        "jakub-onderka/php-parallel-lint": "^1.0",
+        "phpro/grumphp": "^0.16.2",
         "phptaskman/drupal": "^1.0"
     },
     "config": {
@@ -34,6 +37,11 @@
             "web/modules/contrib/{$name}": [
                 "type:drupal-module"
             ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Drupal\\watchdog_registry\\": "src/"
         }
     },
     "repositories": {
