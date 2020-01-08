@@ -27,9 +27,6 @@
         "sort-packages": true
     },
     "extra": {
-        "grumphp": {
-            "config-default-path": "vendor/drupol/drupal-conventions/config/drupal8/grumphp.yml"
-        },
         "installer-paths": {
             "web/core": [
                 "type:drupal-core"

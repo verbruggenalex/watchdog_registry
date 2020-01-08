@@ -1,0 +1,6 @@
+imports:
+  - { resource: vendor/drupol/drupal-conventions/config/drupal8/grumphp.yml }
+parameters:
+    skip_tasks:
+        - phpcsfixer2
+        - php_cs_auto_fixerv2
