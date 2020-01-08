@@ -45,8 +45,7 @@ class WatchdogRegistryForm extends EntityForm {
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
-    $test = $form['watchdog_test2'];
-
+    // $test = $form['watchdog_test2'];
     $watchdog_registry = $this->entity;
     $form['label'] = [
       '#type' => 'textfield',

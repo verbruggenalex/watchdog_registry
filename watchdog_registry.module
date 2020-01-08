@@ -41,7 +41,6 @@ function watchdog_registry_preprocess_views_view_field(&$variables) {
         $user = Drupal::currentUser();
 
         if ($user->hasPermission('administer site configuration')) {
-          $pos = $field->position;
           $watchdogVariables = unserialize($variables['row']->watchdog_variables);
           $ids = Drupal::entityQuery('watchdog_registry')
             ->condition('type', $watchdogVariables['%type'])
@@ -50,23 +49,23 @@ function watchdog_registry_preprocess_views_view_field(&$variables) {
             ->execute();
         }
 
-          if (empty($ids) === TRUE) {
-            $url = Url::fromUri('internal:/admin/reports/dblog/watchdog_registry/add', ['query' => ['wid' => $wid]]);
-            $linkText = 'Register';
-            $link = Link::fromTextAndUrl($linkText, $url);
-            $link = $link->toRenderable();
-            $variables['output'] = $link;
-          }
-          else {
-            $id = key($ids);
-            $url = Url::fromUri('internal:/admin/reports/dblog/watchdog_registry/' . $id . '/edit');
-            $linkText = 'Edit registry';
-            $link = Link::fromTextAndUrl($linkText, $url);
-            $link = $link->toRenderable();
-            $variables['output'] = $link;
-          }
+        if (empty($ids) === TRUE) {
+          $url = Url::fromUri('internal:/admin/reports/dblog/watchdog_registry/add', ['query' => ['wid' => $wid]]);
+          $linkText = 'Register';
+          $link = Link::fromTextAndUrl($linkText, $url);
+          $link = $link->toRenderable();
+          $variables['output'] = $link;
+        }
+        else {
+          $id = key($ids);
+          $url = Url::fromUri('internal:/admin/reports/dblog/watchdog_registry/' . $id . '/edit');
+          $linkText = 'Edit registry';
+          $link = Link::fromTextAndUrl($linkText, $url);
+          $link = $link->toRenderable();
+          $variables['output'] = $link;
+        }
 
-      break;
+        break;
     }
   }
 }

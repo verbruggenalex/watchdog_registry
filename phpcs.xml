@@ -6,7 +6,7 @@
   <config name="drupal_core_version" value="8"/>
 
   <rule ref="Drupal" />
-  <!--<rule ref="DrupalPractice" />-->
+  <rule ref="DrupalPractice" />
 
   <arg name="extensions" value="php,inc,module,install,info,test,profile,theme,css,js"/>
   <arg name="ignore" value="web/,vendor/,node_modules/,tests/fixtures/,spec"/>

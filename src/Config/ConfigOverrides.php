@@ -42,7 +42,7 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
     // TODO: Replace fetching config with entityquery? But has a nesting level
     // problem.
     // TODO: Replace files within message with absolute path.
-    foreach ($names as $key => $name) {
+    foreach ($names as $name) {
       if (mb_strpos($name, 'watchdog_registry.watchdog_registry.') !== FALSE) {
         $watchdogRegistryFile = Drupal::configFactory()->getEditable($name)->get('file');
 
