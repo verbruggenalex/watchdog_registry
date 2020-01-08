@@ -1,0 +1,26 @@
+name: CI
+on:
+  push:
+    branches:
+      - '*'
+      - '*/*'
+      - '!master'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Docker
+      run: |
+        sudo chown -R 1000:1000 .
+        sudo chmod 777 /var/run/docker.sock
+        docker-compose up -d
+        docker-compose restart
+        docker-compose ps
+    - name: Composer
+      run: |
+        docker-compose exec -T web composer install --no-suggest --ansi"
+    - name: Grumphp
+      run: |
+        docker-compose exec -T web  ./vendor/bin/grumphp run"
