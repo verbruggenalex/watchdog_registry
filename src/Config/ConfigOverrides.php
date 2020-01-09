@@ -44,6 +44,8 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
     // TODO: Replace files within message with absolute path.
     foreach ($names as $name) {
       if (mb_strpos($name, 'watchdog_registry.watchdog_registry.') !== FALSE) {
+        // TODO: Replace with dependency injection.
+        // phpcs:disable DrupalPractice.Objects.GlobalDrupal.GlobalDrupal
         $watchdogRegistryFile = Drupal::configFactory()->getEditable($name)->get('file');
 
         if (file_exists($watchdogRegistryFile)) {

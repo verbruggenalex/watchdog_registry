@@ -50,6 +50,8 @@ class WatchdogRegistryLogger implements LoggerInterface {
     if (isset($context['channel']) && $context['channel'] === 'php') {
       $message_placeholders = $this->parser->parseMessagePlaceholders($message, $context);
 
+      // TODO: Replace with dependency injection.
+      // phpcs:disable DrupalPractice.Objects.GlobalDrupal.GlobalDrupal
       $wr = Drupal::entityTypeManager()
         ->getStorage('watchdog_registry')
         ->loadByProperties([
