@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: Git checkout
       uses: actions/checkout@v1
-    - name: Docker setup
+    - name: Set up docker
       run: |
         sudo chown -R 1000:1000 .
         sudo chmod 777 /var/run/docker.sock
@@ -24,10 +24,13 @@ jobs:
     - name: Coding standards
       run: |
         docker-compose exec -T web  ./vendor/bin/grumphp run
-    - name: Site setup
+    - name: Set up site
       run: |
         docker-compose exec -T web  ./vendor/bin/taskman drupal:site-setup
         docker-compose exec -T web  ./vendor/bin/taskman drupal:site-install
     - name: Test behat
       run: |
         docker-compose exec -T web  ./vendor/bin/behat
+    - name: Test phpunit
+      run: |
+        docker-compose exec -T web  ./vendor/bin/phpunit
