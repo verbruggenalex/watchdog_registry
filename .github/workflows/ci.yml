@@ -24,3 +24,7 @@ jobs:
     - name: Grumphp
       run: |
         docker-compose exec -T web  ./vendor/bin/grumphp run
+    - name: Site setup
+      run: |
+        docker-compose exec -T web  ./vendor/bin/taskman drupal:site-setup
+        docker-compose exec -T web  ./vendor/bin/taskman drupal:site-install
