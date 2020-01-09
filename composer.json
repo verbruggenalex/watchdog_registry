@@ -20,6 +20,8 @@
         "drupal/coder": "^8.3",
         "drupal/console": "^1.9",
         "drupal/core": "^8.8",
+        "drupal/core-dev": "^8.8",
+        "drupal/drupal-extension": "^4.0",
         "drush/drush": "^10.1",
         "ergebnis/composer-normalize": "^2.2",
         "jakub-onderka/php-parallel-lint": "^1.0",
@@ -41,7 +43,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Drupal\\watchdog_registry\\": "src/"
+            "Drupal\\watchdog_registry\\": "src/",
+            "WatchdogRegistry\\Tests\\": "./tests/"
         }
     },
     "repositories": {

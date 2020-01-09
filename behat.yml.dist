@@ -1,0 +1,44 @@
+default:
+  suites:
+    default:
+      paths:
+        - %paths.base%/tests/features
+      contexts:
+        - Drupal\DrupalExtension\Context\MarkupContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - WatchdogRegistry\Tests\Behat\DrupalContext
+        - WatchdogRegistry\Tests\Behat\FeatureContext
+      filters:
+        tags: "${behat.tags}"
+  extensions:
+    Drupal\MinkExtension:
+      goutte: ~
+      ajax_timeout: 10
+      browser_name: '${selenium.browser}'
+      javascript_session: 'selenium2'
+      selenium2:
+        wd_host: '${selenium.host}:${selenium.port}/wd/hub'
+        capabilities: { "browser": '${selenium.browser}', "version": "*" }
+      base_url: "${drupal.base_url}"
+    Drupal\DrupalExtension:
+      api_driver: "drupal"
+      drupal:
+        drupal_root: "${drupal.root}"
+      region_map:
+        page: "body"
+        header: ".content-header"
+        breadcrumb: ".region-breadcrumb"
+        highlighted: ".region-highlighted"
+        content: ".region-content"
+      selectors:
+        message_selector: '.messages'
+        error_message_selector: '.messages--error'
+        success_message_selector: '.messages--status'
+        warning_message_selector: '.messages--warning'
+        login_form_selector: '#user-login-form'
+      text:
+        log_in: 'Log in'
+        log_out: 'Log out'
+  formatters:
+    progress: ~

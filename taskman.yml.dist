@@ -33,6 +33,9 @@ drupal:
       ignored-directories: "${drupal.root}"
       uri: "${drupal.base_url}"
 
+behat:
+  tags: "~@wip"
+
 selenium:
   host: "http://selenium"
   port: "4444"
@@ -47,8 +50,8 @@ commands:
     - rm -f ${drupal.root}/modules/custom/watchdog_registry/web
     - { task: "run", command: "drupal:drush-setup" }
     - { task: "run", command: "drupal:settings-setup" }
+    - { task: "run", command: "setup:behat" }
     # - { task: "run", command: "setup:phpunit" }
-    # - { task: "run", command: "setup:behat" }
   setup:phpunit:
     - { task: "process", from: "phpunit.xml.dist", to: "phpunit.xml" }
   setup:behat:

@@ -9,22 +9,25 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: Git Checkout
       uses: actions/checkout@v1
-    - name: Docker
+    - name: Docker Setup
       run: |
         sudo chown -R 1000:1000 .
         sudo chmod 777 /var/run/docker.sock
         docker-compose up -d
         docker-compose restart
         docker-compose ps
-    - name: Composer
+    - name: Composer Install
       run: |
         docker-compose exec -T web composer install --no-suggest --ansi
-    - name: Grumphp
+    - name: Coding Standards
       run: |
         docker-compose exec -T web  ./vendor/bin/grumphp run
-    - name: Site setup
+    - name: Site Setup
       run: |
         docker-compose exec -T web  ./vendor/bin/taskman drupal:site-setup
         docker-compose exec -T web  ./vendor/bin/taskman drupal:site-install
+    - name: Test Behat
+      run: |
+        docker-compose exec -T web  ./vendor/bin/behat
