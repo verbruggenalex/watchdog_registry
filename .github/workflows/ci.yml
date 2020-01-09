@@ -11,7 +11,7 @@ jobs:
     steps:
     - name: Git checkout
       uses: actions/checkout@v1
-    - name: Docker Setup
+    - name: Docker setup
       run: |
         sudo chown -R 1000:1000 .
         sudo chmod 777 /var/run/docker.sock
