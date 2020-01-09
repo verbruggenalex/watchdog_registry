@@ -51,7 +51,7 @@ commands:
     - { task: "run", command: "drupal:drush-setup" }
     - { task: "run", command: "drupal:settings-setup" }
     - { task: "run", command: "setup:behat" }
-    # - { task: "run", command: "setup:phpunit" }
+    - { task: "run", command: "setup:phpunit" }
   setup:phpunit:
     - { task: "process", from: "phpunit.xml.dist", to: "phpunit.xml" }
   setup:behat:
