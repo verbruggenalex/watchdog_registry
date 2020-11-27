@@ -15,6 +15,6 @@ Feature: Watchdog Registry
     Then I should see "RuntimeException: Failed to start the session" in the "php" row
     And I should see "Register" in the "RuntimeException: Failed to start the session" row
     When I click "Register" in the "RuntimeException: Failed to start the session" row
-    And I fill in "id" with "runtime_exeption"
+    And I fill in "id" with "bdd_testing_runtime_exeption"
     And I press "Save"
     Then I should see the success message "Created the : Watchdog registry."

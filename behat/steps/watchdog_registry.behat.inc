@@ -169,6 +169,25 @@ class WatchdogRegistrySubContext extends DrupalSubContextBase implements DrupalS
   }
 
   /**
+   * Clean up created entities.
+   *
+   * @AfterScenario
+   */
+  public function cleanupWatchdogRegistry()
+  {
+    // Maybe still need to find the specific cache to clear...
+    $this->getDriver()->clearCache();
+    // Delete any entities that are prefixed by bdd_testing.
+    $ids = \Drupal::entityQuery('watchdog_registry')->condition('id', 'bdd_testing', 'STARTS_WITH')->execute();
+    $storage_handler = \Drupal::entityTypeManager()
+      ->getStorage('watchdog_registry');
+    $entities = $storage_handler
+      ->loadMultiple($ids);
+    $storage_handler
+      ->delete($entities);
+  }
+
+  /**
    * Creates a watchdog php message with the following context:
    * | %type          | RuntimeException                                                                                                                                                 |
    * | @message       | Failed to start the session because headers have already been sent by "/home/project/web/modules/contrib/watchdog_registry/watchdog_registry.module" at line 19. |
