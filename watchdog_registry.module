@@ -16,6 +16,7 @@ function watchdog_registry_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     // Main module help for the watchdog_registry module.
     case 'help.page.watchdog_registry':
+      $test = $error['error'];
 
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';

@@ -44,6 +44,8 @@ class WatchdogRegistryForm extends EntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
+    $wid = \Drupal::request()->query->get('wid');
+    $hasWid = $wid ? TRUE : FALSE;
 
     // $test = $form['watchdog_test2'];
     $watchdog_registry = $this->entity;
@@ -54,7 +56,8 @@ class WatchdogRegistryForm extends EntityForm {
       '#default_value' => $watchdog_registry->getLabel(),
       '#description' => $this->t('Label for the Watchdog registry.'),
       '#required' => TRUE,
-      '#disabled' => TRUE,
+      '#disabled' => $hasWid,
+      '#access' => FALSE,
     ];
 
     $form['id'] = [
@@ -75,7 +78,7 @@ class WatchdogRegistryForm extends EntityForm {
       '#default_value' => $watchdog_registry->getType(),
       '#description' => $this->t('Type of the message.'),
       '#required' => TRUE,
-      '#disabled' => TRUE,
+      '#disabled' => $hasWid,
     ];
 
     $form['message'] = [
@@ -85,7 +88,7 @@ class WatchdogRegistryForm extends EntityForm {
       '#default_value' => $watchdog_registry->getMessage(),
       '#description' => $this->t('The logged message.'),
       '#required' => TRUE,
-      '#disabled' => TRUE,
+      '#disabled' => $hasWid,
     ];
 
     $form['function'] = [
@@ -95,7 +98,7 @@ class WatchdogRegistryForm extends EntityForm {
       '#default_value' => $watchdog_registry->getFunction(),
       '#description' => $this->t('Function in which the message was logged.'),
       '#required' => TRUE,
-      '#disabled' => TRUE,
+      '#disabled' => $hasWid,
     ];
 
     $form['file'] = [
@@ -105,7 +108,7 @@ class WatchdogRegistryForm extends EntityForm {
       '#default_value' => $watchdog_registry->getFile(),
       '#description' => $this->t('File in which the message was logged.'),
       '#required' => TRUE,
-      '#disabled' => TRUE,
+      '#disabled' => $hasWid,
     ];
 
     $form['line'] = [
@@ -115,7 +118,7 @@ class WatchdogRegistryForm extends EntityForm {
       '#default_value' => $watchdog_registry->getLine(),
       '#description' => $this->t('Line in file in which the message was logged.'),
       '#required' => TRUE,
-      '#disabled' => TRUE,
+      '#disabled' => $hasWid,
     ];
 
     $wid = $this->getRequest()->query->get('wid');
