@@ -1,0 +1,60 @@
+parameters:
+  process_timeout: 3600
+  ascii:
+    failed: ~
+    succeeded: ~
+
+  # PHP Code Sniffer parameters.
+  tasks.phpcs.triggered_by:
+    - inc
+    - install
+    - module
+    - php
+    - profile
+    - theme
+    - info
+    - test
+    - css
+    - js
+
+  # Tasks.
+  tasks:
+    # Composer checks
+    composer:
+      metadata:
+        priority: 6300
+
+    # Composer Normalize
+    composer_normalize:
+      metadata:
+        priority: 6200
+
+    # PHP Lint
+    phplint:
+      triggered_by: ['php', 'module', 'install', 'profile', 'inc', 'theme']
+      metadata:
+        priority: 5000
+
+    # PHP Code Sniffer.
+    phpcs:
+      triggered_by: '%tasks.phpcs.triggered_by%'
+      metadata:
+        priority: 3000
+
+    # YAML Lint
+    yamllint:
+      whitelist_patterns: []
+      ignore_patterns: []
+      object_support: true
+      exception_on_invalid_type: true
+      parse_constant: true
+      parse_custom_tags: true
+      metadata:
+        priority: 2000
+
+    # JSON Lint
+    jsonlint:
+      ignore_patterns: []
+      detect_key_conflicts: true
+      metadata:
+        priority: 1000

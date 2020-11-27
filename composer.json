@@ -1,0 +1,52 @@
+{
+    "name": "drupal/watchdog_registry",
+    "type": "drupal-module",
+    "description": "Register PHP errors, notices and warnings",
+    "homepage": "https://drupal.org/project/watchdog_registry",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Verbruggen Alex",
+            "email": "verbruggenalex@gmail.com"
+        }
+    ],
+    "require": {
+        "PHP": ">=7.1"
+    },
+    "require-dev": {
+        "composer/installers": "^1.7",
+        "drupal-composer/drupal-scaffold": "^2.6",
+        "drupal/admin_toolbar": "^2.0",
+        "drupal/coder": "^8.3",
+        "drupal/console": "^1.9",
+        "drupal/core": "^8.8",
+        "drupal/core-dev": "^8.8",
+        "drupal/drupal-extension": "^4.0",
+        "drush/drush": "^10.1",
+        "ergebnis/composer-normalize": "^2.2",
+        "jakub-onderka/php-parallel-lint": "^1.0",
+        "phpro/grumphp": "^0.16.2",
+        "phptaskman/drupal": "^1.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "installer-paths": {
+            "web/core": [
+                "type:drupal-core"
+            ],
+            "web/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ]
+        }
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

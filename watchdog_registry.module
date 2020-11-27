@@ -1,0 +1,76 @@
+<?php
+
+/**
+ * @file
+ * Contains watchdog_registry.module.
+ */
+
+use Drupal\Core\Link;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function watchdog_registry_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the watchdog_registry module.
+    case 'help.page.watchdog_registry':
+
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Register PHP errors, notices and warnings') . '</p>';
+
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_field().
+ */
+function watchdog_registry_preprocess_views_view_field(&$variables) {
+  $view = $variables['view'];
+
+  if ($view->id() === 'watchdog' && $view->current_display === 'page') {
+
+    $field = $variables['field'];
+    $watchdogType = $variables['row']->watchdog_type;
+
+    if ($watchdogType === 'php') {
+      switch ($field->field) {
+        case 'link':
+          $user = Drupal::currentUser();
+
+          if ($user->hasPermission('administer site configuration')) {
+            $watchdogVariables = unserialize($variables['row']->watchdog_variables);
+            $ids = Drupal::entityQuery('watchdog_registry')
+              ->condition('type', $watchdogVariables['%type'])
+              ->condition('function', $watchdogVariables['%function'])
+              ->condition('line', $watchdogVariables['%line'])
+              ->execute();
+          }
+
+          if (empty($ids) === TRUE) {
+            $wid = $variables['row']->wid;
+            $url = Url::fromUri('internal:/admin/reports/dblog/watchdog_registry/add', ['query' => ['wid' => $wid]]);
+            $linkText = 'Register';
+            $link = Link::fromTextAndUrl($linkText, $url);
+            $link = $link->toRenderable();
+            $variables['output'] = $link;
+          } else {
+            $id = key($ids);
+            $url = Url::fromUri('internal:/admin/reports/dblog/watchdog_registry/' . $id . '/edit');
+            $linkText = 'Edit registry';
+            $link = Link::fromTextAndUrl($linkText, $url);
+            $link = $link->toRenderable();
+            $variables['output'] = $link;
+          }
+
+          break;
+      }
+    }
+
+  }
+}

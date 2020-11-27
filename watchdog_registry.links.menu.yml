@@ -1,0 +1,8 @@
+
+# Watchdog registry menu items definition
+entity.watchdog_registry.collection:
+  title: 'Watchdog registry'
+  route_name: entity.watchdog_registry.collection
+  description: 'List Watchdog registry (bundles)'
+  parent: dblog.overview
+  weight: 99
