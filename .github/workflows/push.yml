@@ -34,17 +34,19 @@ jobs:
           docker-compose up -d ci mysql selenium
           sleep 5
 
-      - name: Cache Composer
+      - name: Cache build
+        id: cache-build
         uses: actions/cache@v2
         with:
           path: |
             vendor/
             web/
-          key: vendor-web-${{ hashFiles('composer.lock') }}
+          key: build-${{ hashFiles('composer.lock') }}
 
       - name: Composer install
+        if: steps.cache-build.outputs.cache-hit != 'true'
         run: |
-          docker-compose exec -T ci sudo composer install --no-progress --ansi
+          docker-compose exec -T ci composer install --no-progress --ansi
 
       - name: Static checks
         run: |
