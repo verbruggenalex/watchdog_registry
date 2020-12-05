@@ -8,9 +8,15 @@ default:
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\MinkContext
+        - WatchdogRegistry\Behat\FeatureContext
       filters:
         tags: "${behat.tags}"
   extensions:
+    Bex\Behat\ScreenshotExtension:
+      image_drivers:
+        local:
+          screenshot_directory: ../tests/screenshots
+          clear_screenshot_directory: true
     Drupal\MinkExtension:
       goutte: ~
       ajax_timeout: 10

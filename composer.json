@@ -14,6 +14,7 @@
         "PHP": ">=7.1"
     },
     "require-dev": {
+        "bex/behat-screenshot": "^2.1",
         "composer/installers": "^1.7",
         "drupal/admin_toolbar": "^2.0",
         "drupal/coder": "^8.3",
@@ -48,6 +49,11 @@
             "web/modules/contrib/{$name}": [
                 "type:drupal-module"
             ]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "WatchdogRegistry\\Behat\\": "./tests/Behat/"
         }
     },
     "repositories": {
