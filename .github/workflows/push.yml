@@ -35,17 +35,17 @@ jobs:
 
       - name: Composer install
         run: |
-          docker-compose exec -T web composer install --no-progress --no-suggest --ansi
+          docker-compose exec -T ci composer install --no-progress --no-suggest --ansi
 
       - name: Static checks
         run: |
-          docker-compose exec -T web grumphp run
+          docker-compose exec -T ci grumphp run
 
       - name: Setup website
         run: |
-          docker-compose exec -T web taskman drupal:site-setup
-          docker-compose exec -T web taskman drupal:site-install
+          docker-compose exec -T ci taskman drupal:site-setup
+          docker-compose exec -T ci taskman drupal:site-install
 
       - name: Test website
         run: |
-          docker-compose exec -T web behat
+          docker-compose exec -T ci behat
