@@ -12,9 +12,9 @@ Feature: Watchdog Registry
       | severity_level | 3                                                                                                                                                                |
     And I am logged in as a user with the "administrator" role
     When I visit "/admin/reports/dblog"
-    Then I should see "RuntimeException: Failed to start the session" in the "php" row
-    And I should see "Register" in the "RuntimeException: Failed to start the session" row
-    When I click "Register" in the "RuntimeException: Failed to start the session" row
+    Then I should see "RuntimeException: Failed" in the "php" row
+    And I should see "Register" in the "RuntimeException: Failed" row
+    When I click "Register" in the "RuntimeException: Failed" row
     And I fill in "id" with "bdd_testing_runtime_exeption"
     And I press "Save"
     Then I should see the success message "Created the : Watchdog registry."
