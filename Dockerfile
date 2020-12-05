@@ -10,3 +10,4 @@ RUN apt-get update && \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --2 --install-dir=/usr/local/bin --filename=composer
 
+USER docker

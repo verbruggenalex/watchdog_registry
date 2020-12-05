@@ -23,7 +23,6 @@ services:
     environment:
       APACHE_DOCUMENT_ROOT: ${PWD}/web
     working_dir: ${PWD}
-    user: 1000:1000
     volumes:
       - ${PWD}:${PWD}
 
