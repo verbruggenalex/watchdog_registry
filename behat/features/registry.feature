@@ -15,7 +15,7 @@ Feature: Watchdog Registry
     Then I should see "RuntimeException: Failed" in the "php" row
     And I should see "Register" in the "RuntimeException: Failed" row
     When I click "Register" in the "RuntimeException: Failed" row
-    And I fill in "id" with "bdd_testing_runtime_exeption F"
+    And I fill in "id" with "bdd_testing_runtime_exeption"
     And I press "Save"
     Then I should see the success message "Created the : Watchdog registry."
     And I clean up watchdog registry items from behat
