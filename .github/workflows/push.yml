@@ -50,7 +50,7 @@ jobs:
 
       - name: Static code checks
         run: |
-          docker-compose exec -T ci grumphp run --ansi
+          docker-compose exec -T ci grumphp run
 
       - name: Project setup
         run: |
