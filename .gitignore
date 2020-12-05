@@ -1,6 +1,5 @@
 /web/
 /vendor/
-/composer.lock
 /.c9/
 /behat.yml
 /phpunit.xml

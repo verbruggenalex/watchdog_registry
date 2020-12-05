@@ -20,6 +20,8 @@ grumphp:
         # eslint: ~
         file_size:
             max_size: 100K
+            ignore_patterns:
+                - composer.lock
         # gherkin: ~
         git_blacklist:
             keywords:

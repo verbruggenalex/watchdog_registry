@@ -34,6 +34,14 @@ jobs:
           docker-compose up -d ci mysql selenium
           sleep 5
 
+      - name: Cache Composer
+        uses: actions/cache@v2
+        with:
+          path: |
+            vendor/
+            web/
+          key: vendor-web-${{ hashFiles('composer.lock') }}
+
       - name: Composer install
         run: |
           docker-compose exec -T ci composer install --no-progress --no-suggest --ansi
@@ -49,4 +57,5 @@ jobs:
 
       - name: Test website
         run: |
+          docker-compose exec -T ci taskman setup:behat -Ddrupal.base_url=http://ci
           docker-compose exec -T ci behat
