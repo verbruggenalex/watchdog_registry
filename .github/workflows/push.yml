@@ -44,7 +44,8 @@ jobs:
 
       - name: Composer install
         run: |
-          docker-compose exec -T ci composer install --no-progress --no-suggest --ansi
+          ls -la
+          docker-compose exec -T ci composer install --no-progress --ansi || ls -la
 
       - name: Static checks
         run: |
