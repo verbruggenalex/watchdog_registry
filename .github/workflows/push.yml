@@ -59,8 +59,7 @@ jobs:
         id: test-website
         run: |
           docker-compose exec -T ci taskman setup:behat -Ddrupal.base_url=http://ci
-          docker-compose exec -T ci behat
-          echo ::set-output name=exit_code::$?
+          docker-compose exec -T ci behat || echo ::set-output name=exit_code::$?
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v2
