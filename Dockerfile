@@ -11,5 +11,4 @@ RUN apt-get update && \
 USER docker
 
 RUN curl -sS https://getcomposer.org/installer | sudo php -- --2 --install-dir=/usr/local/bin --filename=composer && \
-    composer global remove hirak/prestissimo bamarni/symfony-console-autocomplete && \
-    rm -rf ~/.composer/cache
+    composer global remove hirak/prestissimo bamarni/symfony-console-autocomplete
