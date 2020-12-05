@@ -58,10 +58,9 @@ jobs:
           docker-compose exec -T ci taskman drupal:site-install
 
       - name: Test website
-        id: test-website
         run: |
           docker-compose exec -T ci taskman setup:behat -Ddrupal.base_url=http://ci
-          docker-compose exec -T ci behat
+          docker-compose exec -T ci behat --colors
 
       - name: Upload screenshots
         uses: actions/upload-artifact@v2
