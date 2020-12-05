@@ -25,7 +25,7 @@
         "drupal/drupal-extension": "^4.0",
         "drush/drush": "^10.1",
         "ergebnis/composer-normalize": "^2.2",
-        "jakub-onderka/php-parallel-lint": "^1.0",
+        "php-parallel-lint/php-parallel-lint": "^1.2",
         "phpro/grumphp": "^1.2.0",
         "phptaskman/drupal": "^1.0",
         "sensiolabs/security-checker": "^6.0"
