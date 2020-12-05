@@ -13,14 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 2
+          fetch-depth: 100
 
       - uses: marceloprado/has-changed-path@v1
         id: changed-dockerfile
         with:
           paths: Dockerfile
 
-      # Looks like in the future we might need some image versioning here.
       - name: Build and push Docker images
         if: steps.changed-dockerfile.outputs.changed == 'true'
         run: |
