@@ -2,13 +2,12 @@ default:
   suites:
     default:
       paths:
-        - %paths.base%/tests/features
+        - ./behat/features
       contexts:
+        - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\MinkContext
-        - WatchdogRegistry\Tests\Behat\DrupalContext
-        - WatchdogRegistry\Tests\Behat\FeatureContext
       filters:
         tags: "${behat.tags}"
   extensions:
@@ -25,6 +24,9 @@ default:
       api_driver: "drupal"
       drupal:
         drupal_root: "${drupal.root}"
+      subcontexts:
+        paths:
+          - ../behat/steps
       region_map:
         page: "body"
         header: ".content-header"

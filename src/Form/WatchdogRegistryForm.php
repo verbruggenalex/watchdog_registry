@@ -9,7 +9,7 @@ use Symfony\Component\Finder\Finder;
 use function count;
 
 /**
- * Class WatchdogRegistryForm.
+ * Class for the Watchdog Registry Entity form.
  */
 class WatchdogRegistryForm extends EntityForm {
 
@@ -44,7 +44,7 @@ class WatchdogRegistryForm extends EntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
-    $wid = \Drupal::request()->query->get('wid');
+    $wid = $this->getRequest()->query->get('wid');
     $hasWid = $wid ? TRUE : FALSE;
 
     // $test = $form['watchdog_test2'];

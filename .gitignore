@@ -4,3 +4,5 @@
 /.c9/
 /behat.yml
 /phpunit.xml
+/.gitattributes
+/.phpunit.result.cache

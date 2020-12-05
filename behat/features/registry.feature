@@ -18,3 +18,4 @@ Feature: Watchdog Registry
     And I fill in "id" with "bdd_testing_runtime_exeption"
     And I press "Save"
     Then I should see the success message "Created the : Watchdog registry."
+    And I clean up watchdog registry items from behat

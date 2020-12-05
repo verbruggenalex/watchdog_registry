@@ -16,8 +16,6 @@ function watchdog_registry_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     // Main module help for the watchdog_registry module.
     case 'help.page.watchdog_registry':
-      $test = $error['error'];
-
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t('Register PHP errors, notices and warnings') . '</p>';
@@ -35,11 +33,13 @@ function watchdog_registry_preprocess_views_view_field(&$variables) {
   $view = $variables['view'];
 
   if ($view->id() === 'watchdog' && $view->current_display === 'page') {
-
-    $field = $variables['field'];
     $watchdogType = $variables['row']->watchdog_type;
 
     if ($watchdogType === 'php') {
+
+      $field = $variables['field'];
+      $wid = $variables['row']->wid;
+
       switch ($field->field) {
         case 'link':
           $user = Drupal::currentUser();
@@ -54,13 +54,13 @@ function watchdog_registry_preprocess_views_view_field(&$variables) {
           }
 
           if (empty($ids) === TRUE) {
-            $wid = $variables['row']->wid;
             $url = Url::fromUri('internal:/admin/reports/dblog/watchdog_registry/add', ['query' => ['wid' => $wid]]);
             $linkText = 'Register';
             $link = Link::fromTextAndUrl($linkText, $url);
             $link = $link->toRenderable();
             $variables['output'] = $link;
-          } else {
+          }
+          else {
             $id = key($ids);
             $url = Url::fromUri('internal:/admin/reports/dblog/watchdog_registry/' . $id . '/edit');
             $linkText = 'Edit registry';
@@ -72,6 +72,6 @@ function watchdog_registry_preprocess_views_view_field(&$variables) {
           break;
       }
     }
-
   }
+
 }

@@ -2,7 +2,6 @@
 
 namespace Drupal\watchdog_registry\Logger;
 
-use Drupal;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LogMessageParserInterface;
@@ -50,9 +49,9 @@ class WatchdogRegistryLogger implements LoggerInterface {
     if (isset($context['channel']) && $context['channel'] === 'php') {
       $message_placeholders = $this->parser->parseMessagePlaceholders($message, $context);
 
-      // TODO: Replace with dependency injection.
+      // @todo Replace with dependency injection.
       // phpcs:disable DrupalPractice.Objects.GlobalDrupal.GlobalDrupal
-      $wr = Drupal::entityTypeManager()
+      $wr = \Drupal::entityTypeManager()
         ->getStorage('watchdog_registry')
         ->loadByProperties([
           'type' => $message_placeholders['%type'],
@@ -63,7 +62,7 @@ class WatchdogRegistryLogger implements LoggerInterface {
         ]);
 
       if (empty($wr) === TRUE) {
-        // TODO: Some kind of action to notify developer of new watchdog entry.
+        // @todo Some kind of action to notify developer of new watchdog entry.
       }
     }
   }

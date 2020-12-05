@@ -1,0 +1,36 @@
+name: Push on master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup environment
+        run: |
+          docker-compose up -d
+          sleep 5
+
+      - name: Composer install
+        run: |
+          docker-compose exec -T web composer install --no-progress --no-suggest --ansi
+
+      - name: Static checks
+        run: |
+          docker-compose exec -T web grumphp run
+
+      - name: Setup website
+        run: |
+          docker-compose exec -T web taskman drupal:site-setup
+          docker-compose exec -T web taskman drupal:site-install
+
+      - name: Test website
+        run: |
+          docker-compose exec -T web behat

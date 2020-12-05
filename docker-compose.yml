@@ -1,8 +1,8 @@
 version: '3'
 services:
-# ==============================================================================
+
   web:
-    image: verbral/php-c9:${PHP_VERSION:-7.2}-apache
+    image: verbral/php-theia:${PHP_VERSION:-7.4}
     environment:
       APACHE_DOCUMENT_ROOT: ${PWD}/web
       GIT_USER_NAME:
@@ -10,21 +10,23 @@ services:
       WAKATIME_API_KEY:
     working_dir: ${PWD}
     volumes:
-      - ${PWD}/:${PWD}
-      - ~/.ssh:/home/web/.ssh
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ${PWD}:${PWD}
+      - ~/.ssh:/home/docker/.ssh
     ports:
-      - 8080:80
-      - 8181:8181
+      - 80
+      - 3000
     depends_on:
       - mysql
-# ==============================================================================
+
+  selenium:
+    image: selenium/standalone-chrome
+
   mysql:
     image: mysql:5.7
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
       - mysql:/var/lib/mysql
-# ==============================================================================
+
 volumes:
   mysql:

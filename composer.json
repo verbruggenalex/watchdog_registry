@@ -15,23 +15,31 @@
     },
     "require-dev": {
         "composer/installers": "^1.7",
-        "drupal-composer/drupal-scaffold": "^2.6",
         "drupal/admin_toolbar": "^2.0",
         "drupal/coder": "^8.3",
         "drupal/console": "^1.9",
-        "drupal/core": "^8.8",
-        "drupal/core-dev": "^8.8",
+        "drupal/core-composer-scaffold": "^9.1",
+        "drupal/core-dev": "^9.1",
+        "drupal/core-recommended": "^9.1",
         "drupal/drupal-extension": "^4.0",
         "drush/drush": "^10.1",
         "ergebnis/composer-normalize": "^2.2",
         "jakub-onderka/php-parallel-lint": "^1.0",
-        "phpro/grumphp": "^0.16.2",
+        "phpro/grumphp": "^1.2.0",
         "phptaskman/drupal": "^1.0"
     },
     "config": {
         "sort-packages": true
     },
     "extra": {
+        "drupal-scaffold": {
+            "allowed-packages": [
+                "drupal/core"
+            ],
+            "locations": {
+                "web-root": "./web"
+            }
+        },
         "installer-paths": {
             "web/core": [
                 "type:drupal-core"

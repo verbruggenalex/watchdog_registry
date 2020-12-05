@@ -37,6 +37,15 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *         "edit-form": "/admin/reports/dblog/watchdog_registry/{watchdog_registry}/edit",
  *         "delete-form": "/admin/reports/dblog/watchdog_registry/{watchdog_registry}/delete",
  *         "collection": "/admin/reports/dblog/watchdog_registry"
+ *     },
+ *     config_export = {
+ *         "file",
+ *         "function",
+ *         "id",
+ *         "label",
+ *         "line",
+ *         "message",
+ *         "type"
  *     }
  * )
  *

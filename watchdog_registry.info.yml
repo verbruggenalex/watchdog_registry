@@ -1,7 +1,5 @@
 name: 'Watchdog Registry'
 type: module
 description: 'Register PHP errors, notices and warnings'
-core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'Development'
-dependencies:
-  - drupal:dblog

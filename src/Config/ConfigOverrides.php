@@ -2,7 +2,6 @@
 
 namespace Drupal\watchdog_registry\Config;
 
-use Drupal;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryOverrideInterface;
 use Drupal\Core\Config\StorageInterface;
@@ -39,14 +38,14 @@ class ConfigOverrides implements ConfigFactoryOverrideInterface {
   public function loadOverrides($names) {
     $overrides = [];
 
-    // TODO: Replace fetching config with entityquery? But has a nesting level
+    // @todo Replace fetching config with entityquery? But has a nesting level
     // problem.
-    // TODO: Replace files within message with absolute path.
+    // @todo Replace files within message with absolute path.
     foreach ($names as $name) {
       if (mb_strpos($name, 'watchdog_registry.watchdog_registry.') !== FALSE) {
-        // TODO: Replace with dependency injection.
+        // @todo Replace with dependency injection.
         // phpcs:disable DrupalPractice.Objects.GlobalDrupal.GlobalDrupal
-        $watchdogRegistryFile = Drupal::configFactory()->getEditable($name)->get('file');
+        $watchdogRegistryFile = \Drupal::configFactory()->getEditable($name)->get('file');
 
         if (file_exists($watchdogRegistryFile)) {
           $overrides[$name] = ['file' => realpath($watchdogRegistryFile)];
