@@ -25,8 +25,8 @@ jobs:
         if: steps.changed-dockerfile.outputs.changed == 'true'
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u verbruggenalex --password-stdin
-          docker build . --target ci --tag docker.pkg.github.com/verbruggenalex/watchdog_registry/ci
-          docker push docker.pkg.github.com/verbruggenalex/watchdog_registry/ci
+          docker build . --target ci --tag docker.pkg.github.com/verbruggenalex/watchdog_registry/watchdog-registry-ci
+          docker push docker.pkg.github.com/verbruggenalex/watchdog_registry/watchdog-registry-ci
 
       - name: Setup environment
         run: |

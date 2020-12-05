@@ -19,7 +19,7 @@ services:
       - mysql
 
   ci:
-    image: docker.pkg.github.com/verbruggenalex/watchdog_registry/ci:latest
+    image: docker.pkg.github.com/verbruggenalex/watchdog_registry/watchdog-registry-ci:latest
     environment:
       APACHE_DOCUMENT_ROOT: ${PWD}/web
     working_dir: ${PWD}
