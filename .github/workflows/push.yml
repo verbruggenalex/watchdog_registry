@@ -30,6 +30,7 @@ jobs:
 
       - name: Setup environment
         run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u verbruggenalex --password-stdin
           docker-compose up -d ci mysql selenium
           sleep 5
 
