@@ -15,7 +15,8 @@ jobs:
         with:
           fetch-depth: 100
 
-      - uses: marceloprado/has-changed-path@v1
+      - name: Has dockerfile changed
+        uses: marceloprado/has-changed-path@v1
         id: changed-dockerfile
         with:
           paths: Dockerfile
@@ -47,16 +48,16 @@ jobs:
         run: |
           docker-compose exec -T ci composer install --no-progress --ansi
 
-      - name: Static checks
+      - name: Static code checks
         run: |
           docker-compose exec -T ci grumphp run
 
-      - name: Setup website
+      - name: Project setup
         run: |
           docker-compose exec -T ci taskman drupal:site-setup
           docker-compose exec -T ci taskman drupal:site-install
 
-      - name: Test website
+      - name: Project tests
         run: |
           docker-compose exec -T ci taskman setup:behat -Ddrupal.base_url=http://ci
           docker-compose exec -T ci behat --colors
