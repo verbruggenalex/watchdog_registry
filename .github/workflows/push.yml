@@ -50,16 +50,16 @@ jobs:
 
       - name: Static code checks
         run: |
-          docker-compose exec -T ci grumphp run
+          docker-compose exec -T ci grumphp run --ansi
 
       - name: Project setup
         run: |
-          docker-compose exec -T ci taskman drupal:site-setup
-          docker-compose exec -T ci taskman drupal:site-install
+          docker-compose exec -T ci taskman drupal:site-setup --ansi
+          docker-compose exec -T ci taskman drupal:site-install --ansi
 
       - name: Project tests
         run: |
-          docker-compose exec -T ci taskman setup:behat -Ddrupal.base_url=http://ci
+          docker-compose exec -T ci taskman setup:behat -Ddrupal.base_url=http://ci --ansi
           docker-compose exec -T ci behat --colors
 
       - name: Upload screenshots
