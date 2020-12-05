@@ -8,6 +8,6 @@ USER root
 RUN apt-get update && \
     apt-get install -y patch mysql-client --no-install-recommends
 
-RUN curl -sS https://getcomposer.org/installer | php -- --2 --install-dir=/usr/local/bin --filename=composer
-
 USER docker
+
+RUN curl -sS https://getcomposer.org/installer | sudo php -- --2 --install-dir=/usr/local/bin --filename=composer
