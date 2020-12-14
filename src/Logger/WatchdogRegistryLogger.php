@@ -51,20 +51,27 @@ class WatchdogRegistryLogger implements LoggerInterface {
 
       // @todo Replace with dependency injection.
       // phpcs:disable DrupalPractice.Objects.GlobalDrupal.GlobalDrupal
-      $wr = \Drupal::entityTypeManager()
-        ->getStorage('watchdog_registry')
-        ->loadByProperties([
-          'type' => $message_placeholders['%type'],
-          // 'message' => $message_placeholders['@message'],
-          'function' => $message_placeholders['%function'],
-          'file' => $message_placeholders['%file'],
-          'line' => $message_placeholders['%line'],
-        ]);
+      $wr = self::isRegistered($message_placeholders);
 
       if (empty($wr) === TRUE) {
         // @todo Some kind of action to notify developer of new watchdog entry.
       }
     }
+  }
+
+  /**
+   * Helper function to check if php error is registered.
+   */
+  public static function isRegistered($message_placeholders) {
+    return \Drupal::entityTypeManager()
+      ->getStorage('watchdog_registry')
+      ->loadByProperties([
+        'type' => $message_placeholders['%type'],
+        // 'message' => $message_placeholders['@message'],
+        'function' => $message_placeholders['%function'],
+        'file' => $message_placeholders['%file'],
+        'line' => $message_placeholders['%line'],
+      ]);
   }
 
 }

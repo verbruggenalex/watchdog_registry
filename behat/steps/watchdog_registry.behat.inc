@@ -4,6 +4,7 @@
  * Contains \WatchdogRegistrySubContext.
  */
 
+use Drupal\watchdog_registry\Logger\WatchdogRegistryLogger;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Drupal\Component\Render\FormattableMarkup;
@@ -53,8 +54,8 @@ class WatchdogRegistrySubContext extends DrupalSubContextBase implements DrupalS
    */
   public static function clearPhpBehatNoticeLogs() {
     if (!empty(getenv('WATCHDOG_REGISTRY_FLAG_PHP_NOTICES'))) {
-      db_delete('watchdog')
-        ->condition('type', ['php', 'behat'], 'IN')
+      \Drupal::database()->delete('watchdog')
+        ->condition('type', 'php')
         ->execute();
     }
   }
@@ -68,23 +69,26 @@ class WatchdogRegistrySubContext extends DrupalSubContextBase implements DrupalS
     $flagPhp = getenv('WATCHDOG_REGISTRY_FLAG_PHP_NOTICES');
     if (!empty($flagPhp)) {
       $scenarioName = $scope->getFeature()->getTitle();
-      $result = db_select('watchdog', 'w')
+      $result = \Drupal::database()->select('watchdog', 'w')
         ->fields('w', [])
         ->condition('w.type', 'php', '=')
         ->execute();
 
       $errors = [];
       foreach ($result as $entry) {
-        $variables = unserialize($entry->variables);
-        $time = date('Ymd-Hi', $entry->timestamp);
-        $message = new FormattableMarkup($entry->message, $variables);
-        $errors[] = "$scenarioName|$time|" . strip_tags($message);
+        $messagePlaceholders = unserialize($entry->variables);
+        $wr = WatchdogRegistryLogger::isRegistered($messagePlaceholders);
+        if (empty($wr)) {
+          $time = date('Ymd-Hi', $entry->timestamp);
+          $message = new FormattableMarkup($entry->message, $messagePlaceholders);
+          $errors[] = "$scenarioName|$time|" . strip_tags($message);
+        }
       }
 
       if (!empty($errors)) {
         $message = implode("\r\n", $errors);
         // Clear the log for the next scenario.
-        db_update('watchdog')
+        \Drupal::database()->update('watchdog')
           ->fields(['type' => 'behat'])
           ->condition('type', 'php')
           ->execute();
@@ -102,7 +106,7 @@ class WatchdogRegistrySubContext extends DrupalSubContextBase implements DrupalS
    */
   public static function flagPhpSuiteErrors() {
     if (getenv('WATCHDOG_REGISTRY_FLAG_PHP_NOTICES') != self::WATCHDOG_REGISTRY_FLAG_PHP_NOTICES_OFF) {
-      $number_of_rows = db_select('watchdog', 'w')
+      $number_of_rows = \Drupal::database()->select('watchdog', 'w')
         ->fields('w', [])
         ->condition('w.type', 'behat', '=')
         ->countQuery()
