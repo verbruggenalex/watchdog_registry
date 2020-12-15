@@ -11,7 +11,8 @@ purposes.
 This project will provide both a drush command and a behat subcontext with which
 you can detect unregistered or new PHP errors. It is pretty handy if you need to
 take over maintainership of a certain project that already has some PHP errors
-that are being logged in the watchdog table.
+that are being logged in the watchdog table. Such as you can whitelist those and
+start working without having to worry to introduce new PHP errors.
 
  * For a full description of the module, visit the project page:
    https://github.com/verbruggenalex/watchdog_registry
@@ -47,6 +48,26 @@ will be exported.
 Once exported this module will provide you with both a drush command and/or a
 behat subcontext that you can use to run during your tests to see if any new
 PHP errors have been logged in your watchdog table.
+
+## Testing
+
+### Behat
+
+Declare the subcontexts path that includes the Watchdog Registry behat steps
+folder. Then when you run your behat tests after each scenario it will check if
+there are any PHP errors that have not been registered. And after the suite it
+will report them.
+
+```yaml
+default:
+  extensions:
+    Drupal\DrupalExtension:
+      subcontexts:
+        paths:
+          - modules/contrib/watchdog_registry/behat/steps
+```
+
+### Drush
 
 ## Maintainers
 

@@ -86,14 +86,18 @@ class WatchdogRegistrySubContext extends DrupalSubContextBase implements DrupalS
       }
 
       if (!empty($errors)) {
-        $message = implode("\r\n", $errors);
+        $message = "PHP errors were logged: \r\n\r\n";
+        $message .= implode("\r\n", $errors);
         // Clear the log for the next scenario.
         \Drupal::database()->update('watchdog')
           ->fields(['type' => 'behat'])
           ->condition('type', 'php')
           ->execute();
         if ($flagPhp == self::WATCHDOG_REGISTRY_FLAG_PHP_NOTICES_FAIL) {
-          throw new \Exception("PHP errors were logged. See scenario output for details.");
+          throw new \Exception($message);
+        }
+        if ($flagPhp == self::WATCHDOG_REGISTRY_FLAG_PHP_NOTICES_PRINT) {
+          print $message;
         }
       }
     }
@@ -164,30 +168,6 @@ class WatchdogRegistrySubContext extends DrupalSubContextBase implements DrupalS
     }
 
     \Drupal::logger('watchdog_registry')->log($level, $message, $context);
-  }
-
-  /**
-   * Checks that a 403 Access Denied error occurred.
-   *
-   * @Then I should get an access denied error
-   *
-   * @throws \Behat\Mink\Exception\ExpectationException
-   *   Thrown when a different HTTP response code was returned.
-   */
-  public function assertAccessDenied(): void {
-    $this->drupalContext->assertSession()->statusCodeEquals(403);
-  }
-
-  /**
-   * Checks that a 200 OK response occurred.
-   *
-   * @Then I should get a valid web page
-   *
-   * @throws \Behat\Mink\Exception\ExpectationException
-   *   Thrown when a different HTTP response code was returned.
-   */
-  public function assertSuccessfulResponse(): void {
-    $this->drupalContext->assertSession()->statusCodeEquals(200);
   }
 
 }
