@@ -67,6 +67,19 @@ default:
           - modules/contrib/watchdog_registry/behat/steps
 ```
 
+By default the behat check will only report the new PHP errors. If you would
+to change the behavior you can control it through the following environment
+variable:
+
+```bash
+# PRINT
+export WATCHDOG_REGISTRY_FLAG_PHP_NOTICES=0
+# FAIL
+export WATCHDOG_REGISTRY_FLAG_PHP_NOTICES=1
+# OFF
+export WATCHDOG_REGISTRY_FLAG_PHP_NOTICES=2
+```
+
 ### Drush
 
 ## Maintainers

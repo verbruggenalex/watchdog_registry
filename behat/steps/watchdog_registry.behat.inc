@@ -31,9 +31,9 @@ class WatchdogRegistrySubContext extends DrupalSubContextBase implements DrupalS
    */
   protected $minkContext;
 
-  const WATCHDOG_REGISTRY_FLAG_PHP_NOTICES_OFF = 0;
-  const WATCHDOG_REGISTRY_FLAG_PHP_NOTICES_PRINT = 1;
-  const WATCHDOG_REGISTRY_FLAG_PHP_NOTICES_FAIL = 2;
+  const WATCHDOG_REGISTRY_FLAG_PHP_NOTICES_PRINT = 0;
+  const WATCHDOG_REGISTRY_FLAG_PHP_NOTICES_FAIL = 1;
+  const WATCHDOG_REGISTRY_FLAG_PHP_NOTICES_OFF = 2;
 
   /**
    * Set the contexts within the scope.
@@ -67,7 +67,7 @@ class WatchdogRegistrySubContext extends DrupalSubContextBase implements DrupalS
    */
   public function flagPhpScenarioErrors(AfterScenarioScope $scope) {
     $flagPhp = getenv('WATCHDOG_REGISTRY_FLAG_PHP_NOTICES');
-    if (!empty($flagPhp)) {
+    if ($flagPhp != self::WATCHDOG_REGISTRY_FLAG_PHP_NOTICES_OFF) {
       $scenarioName = $scope->getFeature()->getTitle();
       $result = \Drupal::database()->select('watchdog', 'w')
         ->fields('w', [])
